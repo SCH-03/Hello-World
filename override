@@ -1,0 +1,36 @@
+abstract class Skill
+{
+  public abstract void  Skill();
+}
+
+class Player : Skill
+{
+  public override void Skill()
+  {
+     Console.WriteLine(" 스킬 사용 ");
+  }
+}
+
+
+class Program
+{
+    static void Main()
+    {
+        List<Skill> skills = new List<Skill>();
+        skills.Add(new Player());
+
+        foreach (Skill s in skills)
+        {
+            s.Use();
+        }
+    }
+}
+
+Skill A = new Player();
+
+a.Skill;
+
+// 스킬 사용
+
+    
+
