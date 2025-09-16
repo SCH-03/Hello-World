@@ -1,0 +1,37 @@
+ using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class PlayerController : MonoBehaviour
+{
+    float Speed = 10.0f;
+    void Start()
+    {
+        
+    }
+    void Update()
+    {
+        //회전, 이동
+        if (Input.GetKey(KeyCode.W))                                                                                               //Input.GetKey() = 누르고 있는 동안 true, Input.GetKeydown() = 누르는 순간 한번 true, Input.GetKeyUp() = 키를 땔때 true 반환
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.1f);             //플레이어의 회전을 자연스럽게 해주는 기능으로 Quaternion.Slerp(시작 방향, 원하는 방향, 회전 속도(0~1f)) 
+            transform.Translate(Vector3.forward * Time.deltaTime * Speed, Space.World);                                            //플레이어의 이동을 로컬(게임오브젝트)좌표로 ( 방향 * 프레임 간의 시간 * 속도 , 이동을 월드 좌표로 전환 ); 
+        }                                                                                                                          //이 경우 플레이어의 이동은 transform.position(월드좌표계) += Vector.forword(방향에 따라 달라짐, back right left) * Time.deltaTime * Speed; 으로도 구현이 가능하다.                       
+        if (Input.GetKey(KeyCode.S))                                                                                               //이유는 두 코드 모두 월드좌표계 기준으로 이동을 구현했기 때문에 문제없이 실행이 가능하고 같은 기능을 가진 코드이다.
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.1f);
+            transform.Translate(Vector3.back * Time.deltaTime * Speed, Space.World);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.1f);
+            transform.Translate(Vector3.right * Time.deltaTime * Speed, Space.World);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.1f);
+            transform.Translate(Vector3.left * Time.deltaTime * Speed, Space.World);
+        }
+    }
+}
