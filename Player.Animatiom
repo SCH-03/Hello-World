@@ -1,0 +1,47 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class PlayerController : MonoBehaviour
+{
+    float Speed = 10.0f;
+    CharacterController cc;
+    void Start()
+    {
+        cc = GetComponent<CharacterController>(); // 이 스크립트를 갖는 게임오브젝트의 CharacterController 컴포넌트를 가져옴.
+    }
+
+    void Update()
+    {
+        //회전
+
+        //이동
+
+        Vector3 moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;              // Input.GetAxis("Horizontal")은 수평의(A ,D) 입력을 받아서 그 값을 -1~0~1사이의 값으로 설정 (부드러운 움직임 구현).
+                                                                                                                          // Input.GetAxis("Horizontal")은 수직의(W ,S) 입력을 받아서 그 값을 -1~0~1사이의 값으로 설정    
+                                                                                                                          // normalized(방향)로 벡터값을 1로 고정(대각선의 경우 1.41값이 되기때문)한다. 보통 방향 벡터를 구할 때 씀 
+                                                                                                                          // magnitude(크기)는 좌표의 벡터 값을 구할 때 쓴다. ex) Vector3 v = Vector3(3, 4, 0).magnitude ---> 5 
+       
+        cc.Move(moveDir * Speed * Time.deltaTime);                                                                        // CharacterController 컴포넌트를 이용한 Move기능을 사용해서 캐릭터의 움직임을 구현했는데 이때 발생하는 y값의 변화로 수정이 필요함.
+                                                                                                                          // moveDir은 normalized로 1의 값으로 고정되어있기 때문에 speed랑 Time.deltaTime을 곱해줌으로써 자연스러운 움직임을 구현해줌 
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.1f);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.1f);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.1f);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.1f);
+        }
+
+        
+    }
+}
